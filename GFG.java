@@ -1,128 +1,174 @@
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
+// A simple program to demonstrate
+// Tic-Tac-Toe Game.
+import java.util.*;
+
 public class GFG {
-  
-    // Function to convert from rupee
-    // to the dollar and vice-versa
-    // using Java Swing
-    public static void converter()
-    {
-  
-        // Creating a new frame using JFrame
-        JFrame f = new JFrame("CONVERTER");
-  
-        // Creating two labels
-        JLabel l1, l2;
-  
-        // Creating two text fields.
-        // One for rupee and one for
-        // the dollar
-        JTextField t1, t2;
-  
-        // Creating three buttons
-        JButton b1, b2, b3;
-  
-        // Naming the labels and setting
-        // the bounds for the labels
-        l1 = new JLabel("Rupees:");
-        l1.setBounds(20, 40, 60, 30);
-        l2 = new JLabel("Dollars:");
-        l2.setBounds(170, 40, 60, 30);
-  
-        // Initializing the text fields with
-        // 0 by default and setting the
-        // bounds for the text fields
-        t1 = new JTextField("0");
-        t1.setBounds(80, 40, 50, 30);
-        t2 = new JTextField("0");
-        t2.setBounds(240, 40, 50, 30);
-  
-        // Creating a button for INR,
-        // one button for the dollar
-        // and one button to close
-        // and setting the bounds
-        b1 = new JButton("INR");
-        b1.setBounds(50, 80, 60, 15);
-        b2 = new JButton("Dollar");
-        b2.setBounds(190, 80, 60, 15);
-        b3 = new JButton("close");
-        b3.setBounds(150, 150, 60, 30);
-  
-        // Adding action listener
-        b1.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e)
-            {
-                // Converting to double
-                double d
-                    = Double.parseDouble(t1.getText());
-  
-                // Converting rupees to dollars
-                double d1 = (d / 65.25);
-  
-                // Getting the string value of the
-                // calculated value
-                String str1 = String.valueOf(d1);
-  
-                // Placing it in the text box
-                t2.setText(str1);
-            }
-        });
-  
-        // Adding action listener
-        b2.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e)
-            {
-                // Converting to double
-                double d2
-                    = Double.parseDouble(t2.getText());
-  
-                // converting Dollars to rupees
-                double d3 = (d2 * 65.25);
-  
-                // Getting the string value of the
-                // calculated value
-                String str2 = String.valueOf(d3);
-  
-                // Placing it in the text box
-                t1.setText(str2);
-            }
-        });
-  
-        // Action listener to close the form
-        b3.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e)
-            {
-                f.dispose();
-            }
-        });
-  
-        // Default method for closing the frame
-        f.addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e)
-            {
-                System.exit(0);
-            }
-        });
-  
-        // Adding the created objects
-        // to the form
-        f.add(l1);
-        f.add(t1);
-        f.add(l2);
-        f.add(t2);
-        f.add(b1);
-        f.add(b2);
-        f.add(b3);
-  
-        f.setLayout(null);
-        f.setSize(400, 300);
-        f.setVisible(true);
-    }
-  
-    // Driver code
-    public static void main(String args[])
-    {
-        converter();
-    }
+
+	static String[] board;
+	static String turn;
+
+
+	// CheckWinner method will
+	// decide the combination
+	// of three box given below.
+	static String checkWinner()
+	{
+		for (int a = 0; a < 8; a++) {
+			String line = null;
+
+			switch (a) {
+			case 0:
+				line = board[0] + board[1] + board[2];
+				break;
+			case 1:
+				line = board[3] + board[4] + board[5];
+				break;
+			case 2:
+				line = board[6] + board[7] + board[8];
+				break;
+			case 3:
+				line = board[0] + board[3] + board[6];
+				break;
+			case 4:
+				line = board[1] + board[4] + board[7];
+				break;
+			case 5:
+				line = board[2] + board[5] + board[8];
+				break;
+			case 6:
+				line = board[0] + board[4] + board[8];
+				break;
+			case 7:
+				line = board[2] + board[4] + board[6];
+				break;
+			}
+			//For X winner
+			if (line.equals("XXX")) {
+				return "X";
+			}
+			
+			// For O winner
+			else if (line.equals("OOO")) {
+				return "O";
+			}
+		}
+		
+		for (int a = 0; a < 9; a++) {
+			if (Arrays.asList(board).contains(
+					String.valueOf(a + 1))) {
+				break;
+			}
+			else if (a == 8) {
+				return "draw";
+			}
+		}
+
+	// To enter the X Or O at the exact place on board.
+		System.out.println(
+			turn + "'s turn; enter a slot number to place "
+			+ turn + " in:");
+		return null;
+	}
+	
+	// To print out the board.
+	/* |---|---|---|
+	| 1 | 2 | 3 |
+	|-----------|
+	| 4 | 5 | 6 |
+	|-----------|
+	| 7 | 8 | 9 |
+	|---|---|---|*/
+
+	static void printBoard()
+	{
+		System.out.println("|---|---|---|");
+		System.out.println("| " + board[0] + " | "
+						+ board[1] + " | " + board[2]
+						+ " |");
+		System.out.println("|-----------|");
+		System.out.println("| " + board[3] + " | "
+						+ board[4] + " | " + board[5]
+						+ " |");
+		System.out.println("|-----------|");
+		System.out.println("| " + board[6] + " | "
+						+ board[7] + " | " + board[8]
+						+ " |");
+		System.out.println("|---|---|---|");
+	}
+
+	public static void main(String[] args)
+	{
+		Scanner in = new Scanner(System.in);
+		board = new String[9];
+		turn = "X";
+		String winner = null;
+
+		for (int a = 0; a < 9; a++) {
+			board[a] = String.valueOf(a + 1);
+		}
+
+		System.out.println("Welcome to 3x3 Tic Tac Toe.");
+		printBoard();
+
+		System.out.println(
+			"X will play first. Enter a slot number to place X in:");
+
+		while (winner == null) {
+			int numInput;
+		
+		// Exception handling.
+		// numInput will take input from user like from 1 to 9.
+		// If it is not in range from 1 to 9.
+		// then it will show you an error "Invalid input."
+			try {
+				numInput = in.nextInt();
+				if (!(numInput > 0 && numInput <= 9)) {
+					System.out.println(
+						"Invalid input; re-enter slot number:");
+					continue;
+				}
+			}
+			catch (InputMismatchException e) {
+				System.out.println(
+					"Invalid input; re-enter slot number:");
+				continue;
+			}
+			
+			// This game has two player x and O.
+			// Here is the logic to decide the turn.
+			if (board[numInput - 1].equals(
+					String.valueOf(numInput))) {
+				board[numInput - 1] = turn;
+
+				if (turn.equals("X")) {
+					turn = "O";
+				}
+				else {
+					turn = "X";
+				}
+
+				printBoard();
+				winner = checkWinner();
+			}
+			else {
+				System.out.println(
+					"Slot already taken; re-enter slot number:");
+			}
+		}
+	
+		// If no one win or lose from both player x and O.
+		// then here is the logic to print "draw".
+		if (winner.equalsIgnoreCase("draw")) {
+			System.out.println(
+				"It's a draw! Thanks for playing.");
+		}
+	
+		// For winner -to display Congratulations! message.
+		else {
+			System.out.println(
+				"Congratulations! " + winner
+				+ "'s have won! Thanks for playing.");
+		}
+	in.close();
+	}
 }
